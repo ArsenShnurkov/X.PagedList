@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Notes on compiling on mono/sabayon</title>
+</head>
+<body>
+
+<h2>PCL</h2>
+/usr/lib64/mono/4.5/Microsoft.Common.targets: Error: PCL Reference Assemblies not installed. (X.PagedList)
+<br />
+<br />
+Similar topic:
+<br />
+<a href="http://coderissues.com/questions/19389093/xamarin-alpha-and-mvvmcross">http://coderissues.com/questions/19389093/xamarin-alpha-and-mvvmcross</a>
+<br />
+<br />
+Here is the list of profiles, which are installed by Xamarin:
+<br />
+<a href="http://danrigby.com/2014/05/14/supported-pcl-profiles-xamarin-for-visual-studio-2/">http://danrigby.com/2014/05/14/supported-pcl-profiles-xamarin-for-visual-studio-2/</a>
+<br />
+(and doesn't installed on linux)
+<br />
+<br />
+how to install the  "PCL 4.0" "Profile 328", or how to replace it to something different in project settings? Right now it give compile error that profile is not installed, and i don't know how to install profile
+<br />
+where did you get Mono from?
+<br />
+from gentoo/dotnet overlay on Sabayon Linux
+<br />
+ok then it's a bit harder (xamarin has a package for the PCL profiles in their repo)
+<br />
+the easiest way is to download the PCL zip file from microsoft
+<br />
+oh wait, they ship it in an exe, so unless you have a windows handy that's not going to help you
+<br />
+you can take them from http://storage.bos.xamarin.com/bot-provisioning/PortableReferenceAssemblies-2014-04-14.zip
+<br />
+actually i don't know do I need profiles or not. Is it possible to remove profile from csproj and compile with raw framework?
+<br />
+that depends on the app/library you're compiling
+<br />
+it's easier to just get the PCLs. unzip them into &lt;mono prefix&gt;/lib/mono/xbuild-frameworks/.NETPortable/
+<br />
+so that you then have .../.NETPortable/v4.0 etc
+<br />
+i downloaded, and it looks like xml + set of dll-s. It not a "gentoo way" :) So, probably I need to build the same from sources
+<br />
+nah, just put it in the right folder
+<br />
+we don't have the sources for the PCL assemblies, microsoft didn't make them available
+
+
+<h2>Razor</h2>
+
+<div class="page">
+<div id="header">
+<div id="header-text">Application Exception</div>
+</div>
+<div id="main">
+  <h1>System.InvalidOperationException</h1>
+  <h2 class="exceptionMessage">Could not locate Razor Host Factory type: System.Web.Mvc.MvcWebRazorHostFactory, System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35</h2>
+  <p><strong>Description:</strong> HTTP 500.Error processing request.</p><p><strong>Details:</strong> Non-web exception. Exception origin (name of application or object): System.Web.WebPages.Razor.</p>
+<div><strong>Exception stack trace:</strong></div>
+<div class="details">  at System.Web.WebPages.Razor.WebRazorHostFactory.CreateFactory (System.String typeName) [0x00030] in &lt;filename unknown&gt;:0 
+  at System.Collections.Concurrent.ConcurrentDictionary`2[TKey,TValue].GetOrAdd (System.Collections.Concurrent.TKey key, System.Func`2 valueFactory) [0x00037] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/external/referencesource/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs:1033 
+  at System.Web.WebPages.Razor.WebRazorHostFactory.CreateHostFromConfigCore (System.Web.WebPages.Razor.Configuration.RazorWebSectionGroup config, System.String virtualPath, System.String physicalPath) [0x0004f] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.WebRazorHostFactory.CreateHostFromConfig (System.String virtualPath, System.String physicalPath) [0x00038] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.WebRazorHostFactory.CreateHostFromConfig (System.String virtualPath) [0x00000] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.RazorBuildProvider.GetHostFromConfig () [0x00006] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.RazorBuildProvider.CreateHost () [0x00000] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.RazorBuildProvider.get_Host () [0x00008] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.RazorBuildProvider.EnsureGeneratedCode () [0x00008] in &lt;filename unknown&gt;:0 
+  at System.Web.WebPages.Razor.RazorBuildProvider.get_CodeCompilerType () [0x00000] in &lt;filename unknown&gt;:0 
+  at System.Web.Compilation.BuildManagerDirectoryBuilder.GetBuildProviderCodeDomType (System.Web.Compilation.BuildProvider bp) [0x00000] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManagerDirectoryBuilder.cs:224 
+  at System.Web.Compilation.BuildManagerDirectoryBuilder.AssignToGroup (System.Web.Compilation.BuildProvider buildProvider, System.Collections.Generic.List`1 groups) [0x0007a] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManagerDirectoryBuilder.cs:261 
+  at System.Web.Compilation.BuildManagerDirectoryBuilder.Build (Boolean single) [0x00151] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManagerDirectoryBuilder.cs:120 
+  at System.Web.Compilation.BuildManager.BuildInner (System.Web.VirtualPath vp, Boolean debug) [0x00011] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManager.cs:415 
+  at System.Web.Compilation.BuildManager.Build (System.Web.VirtualPath vp) [0x00056] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManager.cs:396 
+  at System.Web.Compilation.BuildManager.GetCompiledType (System.Web.VirtualPath virtualPath) [0x00040] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManager.cs:989 
+  at System.Web.Compilation.BuildManager.GetCompiledType (System.String virtualPath) [0x00000] in /var/tmp/portage/dev-lang/mono-4.2.1.124/work/mono-4.2.1/mcs/class/System.Web/System.Web.Compilation/BuildManager.cs:972 
+  at System.Web.Mvc.BuildManagerWrapper.System.Web.Mvc.IBuildManager.GetCompiledType (System.String virtualPath) [0x00000] in &lt;filename unknown&gt;:0 
+  at System.Web.Mvc.BuildManagerCompiledView.Render (System.Web.Mvc.ViewContext viewContext, System.IO.TextWriter writer) [0x0001c] in &lt;filename unknown&gt;:0 
+  at System.Web.Mvc.ViewResultBase.ExecuteResult (System.Web.Mvc.ControllerContext context) [0x00080] in &lt;filename unknown&gt;:0 
+  at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult (System.Web.Mvc.ControllerContext controllerContext, System.Web.Mvc.ActionResult actionResult) [0x00000] in &lt;filename unknown&gt;:0 
+  at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive (IList`1 filters, Int32 filterIndex, System.Web.Mvc.ResultExecutingContext preContext, System.Web.Mvc.ControllerContext controllerContext, System.Web.Mvc.ActionResult actionResult) [0x0000b] in &lt;filename unknown&gt;:0 
+  at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive (IList`1 filters, Int32 filterIndex, System.Web.Mvc.ResultExecutingContext preContext, System.Web.Mvc.ControllerContext controllerContext, System.Web.Mvc.ActionResult actionResult) [0x0004f] in &lt;filename unknown&gt;:0 </div><div id="footer">
+  <div style="color:Black;"><strong>Version Information:</strong> <tt>4.2.1 (Stable 4.2.1.124/39edf24 Wed Dec  9 22:00:35 MSK 2015)</tt>; ASP.NET Version: <tt>4.0.30319.17020</tt></div>
+  <div id="footer-powered-by">Powered by <a href="http://mono-project.com/">Mono</a></div>
+</div>
+</div>
+</div>
+<a href="https://github.com/ArsenShnurkov/X.PagedList/blob/master/src/X.PagedList.Mvc.Example/Views/Web.config#L12">Web.Config, line 12</a>
+<br />
+<br />
+
+this is solved by replacing 5.0.0.0 with 5.2.3.0
+
+<h2>System.Runtime</h2>
+
+Adding System.Runtime...
+<br />
+The 'System.Runtime 4.0.20' package requires NuGet client version '3.0' or above, but the current NuGet version is '2.8.3.0'.
+
+</body>
+</html>
