@@ -115,6 +115,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\SearchResultsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Names.txt" />
@@ -219,6 +220,8 @@
     <Content Include="Views\UnobtrusiveAjax\Index.cshtml" />
     <Content Include="Views\InfiniteScroll\Index.cshtml" />
     <Content Include="Views\Automapper\Index.cshtml" />
+    <Content Include="Views\SearchResults\Index.cshtml" />
+    <Content Include="Views\SearchResults\UnobtrusiveAjax_Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-2.1.4.min.map" />
@@ -270,11 +273,13 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <ItemGroup>
+    <Folder Include="Views\SearchResults\" />
+  </ItemGroup>
 </Project>
